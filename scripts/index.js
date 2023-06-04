@@ -1,5 +1,10 @@
 import { validWords } from "./data.js";
-import { createButton, createAlert, getRandomArrayElement } from "./helpers.js";
+import {
+  createButton,
+  createAlert,
+  getRandomArrayElement,
+  logHints,
+} from "./helpers.js";
 
 const alertContainer = document.getElementById("alert-container");
 const rows = document.querySelectorAll(".row");
@@ -9,8 +14,8 @@ const formButton = document.getElementById("newGuessButton");
 
 let CORRECT_WORD = getRandomArrayElement(validWords);
 let nextRowIndex = 0;
+logHints(validWords, CORRECT_WORD);
 
-console.log(CORRECT_WORD);
 input.focus();
 
 form.addEventListener("submit", handleNewGuess);

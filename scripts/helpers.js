@@ -16,3 +16,14 @@ export function getRandomArrayElement(array) {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
+
+export function logHints(validWords, correctWord) {
+  const similarWords = validWords.filter(isSimilarWord);
+  console.log("HINT: List of similar words", similarWords.slice(0, 20));
+
+  function isSimilarWord(word) {
+    const regex = new RegExp(`[${correctWord}]`, "g");
+    const matches = word.match(regex);
+    return matches && matches.length >= 4;
+  }
+}
