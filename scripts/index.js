@@ -34,25 +34,33 @@ function handleNewGuess(e) {
 
 function addGuess(guess) {
   const [...tiles] = rows[nextRowIndex++].children;
-  let correctWord = CORRECT_WORD.split("");
+  const correctWord = CORRECT_WORD.split("");
 
-  tiles.forEach((tile, i) => {
+  tiles.forEach(showTile);
+  tiles.forEach(showExactMatches);
+  tiles.forEach(showPartialMatches);
+
+  function showTile(tile, i) {
     tile.textContent = guess[i];
     tile.classList.add("gray");
+  }
 
-    if (guess[i] === correctWord[i]) {
+  function showExactMatches(tile, i) {
+    const isExactMatch = guess[i] === correctWord[i];
+    if (isExactMatch) {
       tile.classList.add("green");
       correctWord[i] = null;
     }
-  });
+  }
 
-  tiles.forEach((tile, i) => {
-    if (correctWord.includes(guess[i])) {
+  function showPartialMatches(tile, i) {
+    const index = correctWord.indexOf(guess[i]);
+    const isPartialMatch = index !== -1;
+    if (isPartialMatch) {
       tile.classList.add("yellow");
-      const index = correctWord.indexOf(guess[i]);
       correctWord[index] = null;
     }
-  });
+  }
 
   checkWin() && endGame();
 }
