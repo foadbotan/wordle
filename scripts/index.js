@@ -15,6 +15,7 @@ const formButton = document.getElementById("newGuessButton");
 let CORRECT_WORD = getRandomArrayElement(validWords);
 let nextRowIndex = 0;
 logHints(validWords, CORRECT_WORD);
+console.log(CORRECT_WORD);
 
 input.focus();
 
@@ -34,7 +35,7 @@ function handleNewGuess(e) {
   addGuess(guess);
   input.value = "";
 
-  noMoreTurns && endGame();
+  if (checkWin() || noMoreTurns) return endGame();
 }
 
 function addGuess(guess) {
@@ -66,8 +67,6 @@ function addGuess(guess) {
       correctWord[index] = null;
     }
   }
-
-  checkWin() && endGame();
 }
 
 function alertMessage(message) {
