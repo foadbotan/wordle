@@ -1,3 +1,5 @@
+import { validWords } from "./data.js";
+
 const alertContainer = document.getElementById("alert-container");
 const rows = document.querySelectorAll(".row");
 const form = document.getElementById("newGuessForm");
