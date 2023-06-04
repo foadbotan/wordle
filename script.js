@@ -1,3 +1,4 @@
+const alertContainer = document.getElementById("alert-container");
 const rows = document.querySelectorAll(".row");
 const form = document.querySelector("form");
 const input = document.querySelector("input");
@@ -15,7 +16,10 @@ form.addEventListener("submit", (e) => {
   const isTooShort = guess.length < 5;
   const isInvalidWord = !validWords.includes(guess);
   const isGameOver = currentRowIndex >= 6;
-  if (isTooShort || isInvalidWord || isGameOver) return;
+
+  if (isTooShort) return alert("Not enough letters");
+  if (isInvalidWord) return alert("Not in word list");
+  if (isGameOver) return;
 
   addGuess(guess);
   input.value = "";
@@ -47,4 +51,22 @@ function addGuess(guess) {
 function getRandomArrayElement(array) {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
+}
+
+function alert(message) {
+  const alertElement = document.createElement("div");
+  alertElement.classList.add("alert");
+  alertElement.textContent = message;
+
+  alertContainer.prepend(alertElement);
+
+  setTimeout(() => {
+    alertElement.classList.add("show-alert");
+    setTimeout(() => {
+      alertElement.classList.add("hide-alert");
+      alertElement.addEventListener("animationend", () => {
+        alertElement.remove();
+      });
+    }, 2000);
+  }, 100);
 }

@@ -17,6 +17,10 @@ body {
   background-color: hsl(200, 20%, 7%);
 }
 
+#board {
+  position: relative;
+}
+
 h1 {
   font-size: 4rem;
 }
@@ -92,4 +96,55 @@ button {
 
 button:hover {
   background-color: hsl(210, 100%, 20%);
+}
+
+#alert-container {
+  position: absolute;
+  width: 100%;
+  top: -10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.alert {
+  padding: 1rem 2rem;
+  color: white;
+  backdrop-filter: blur(10px);
+  background-color: hsla(0, 0%, 100%, 0.3);
+  font-size: 1.25rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border-radius: 0.5rem;
+  opacity: 0;
+}
+
+.show-alert {
+  animation: show 0.5s ease forwards;
+}
+
+@keyframes show {
+  0% {
+    transform: translate(-100%);
+  }
+  100% {
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+
+.hide-alert {
+  animation: hide 0.5s ease forwards;
+}
+
+@keyframes hide {
+  0% {
+    transform: translate(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100%);
+  }
 }
