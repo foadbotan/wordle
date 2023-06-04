@@ -1,6 +1,8 @@
 * {
   box-sizing: border-box;
   color: hsl(40, 50%, 80%);
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -16,7 +18,7 @@ body {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 4rem;
 }
 
 #board {
