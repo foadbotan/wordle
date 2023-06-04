@@ -1,32 +1,36 @@
 const alertContainer = document.getElementById("alert-container");
 const rows = document.querySelectorAll(".row");
-const form = document.querySelector("form");
-const input = document.querySelector("input");
-const CORRECT_WORD = getRandomArrayElement(validWords);
+const form = document.getElementById("newGuessForm");
+const input = document.getElementById("newGuessInput");
+const formButton = document.getElementById("newGuessButton");
 
-let currentRowIndex = 0;
-
-input.focus();
+let CORRECT_WORD = getRandomArrayElement(validWords);
+let nextRowIndex = 0;
 
 console.log(CORRECT_WORD);
+input.focus();
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", handleNewGuess);
+
+function handleNewGuess(e) {
   e.preventDefault();
+
   const guess = input.value.toUpperCase();
   const isTooShort = guess.length < 5;
   const isInvalidWord = !validWords.includes(guess);
-  const isGameOver = currentRowIndex >= 6;
+  const noMoreTurns = nextRowIndex === 5;
 
-  if (isTooShort) return alert("Not enough letters");
-  if (isInvalidWord) return alert("Not in word list");
-  if (isGameOver) return;
+  if (isTooShort) return alertMessage("Not enough letters");
+  if (isInvalidWord) return alertMessage("Not in word list");
 
   addGuess(guess);
   input.value = "";
-});
+
+  noMoreTurns && endGame();
+}
 
 function addGuess(guess) {
-  const [...tiles] = rows[currentRowIndex++].children;
+  const [...tiles] = rows[nextRowIndex++].children;
   let correctWord = CORRECT_WORD.split("");
 
   tiles.forEach((tile, i) => {
@@ -46,6 +50,8 @@ function addGuess(guess) {
       correctWord[index] = null;
     }
   });
+
+  checkWin() && endGame();
 }
 
 function getRandomArrayElement(array) {
@@ -53,20 +59,60 @@ function getRandomArrayElement(array) {
   return array[randomIndex];
 }
 
-function alert(message) {
+function alertMessage(message) {
+  const alertElement = createAlert(message);
+  showAlert(alertElement);
+  setTimeout(() => hideAlert(alertElement), 2000);
+}
+
+function alertGameEnd() {
+  const message = checkWin() ? "You Win!" : "You Lose!";
+  const alertElement = createAlert(message);
+  const button = createButton("Play Again", startGame);
+
+  alertElement.append(button);
+  showAlert(alertElement);
+}
+
+function showAlert(alert) {
+  alertContainer.prepend(alert);
+  setTimeout(() => {
+    alert.classList.add("show-alert");
+  }, 100);
+}
+
+function hideAlert(alertElement) {
+  alertElement.classList.add("hide-alert");
+  alertElement.addEventListener("animationend", () => {
+    alertElement.remove();
+  });
+}
+
+function endGame() {
+  input.disabled = true;
+  formButton.disabled = true;
+  alertGameEnd();
+}
+
+function startGame() {
+  location.reload();
+}
+
+function checkWin() {
+  const [...tiles] = rows[nextRowIndex - 1].children;
+  return tiles.every((tile) => tile.classList.contains("green"));
+}
+
+function createButton(message, handleClick) {
+  const button = document.createElement("button");
+  button.textContent = message;
+  button.addEventListener("click", handleClick);
+  return button;
+}
+
+function createAlert(message) {
   const alertElement = document.createElement("div");
   alertElement.classList.add("alert");
   alertElement.textContent = message;
-
-  alertContainer.prepend(alertElement);
-
-  setTimeout(() => {
-    alertElement.classList.add("show-alert");
-    setTimeout(() => {
-      alertElement.classList.add("hide-alert");
-      alertElement.addEventListener("animationend", () => {
-        alertElement.remove();
-      });
-    }, 2000);
-  }, 100);
+  return alertElement;
 }
