@@ -1,46 +1,45 @@
 const rows = document.querySelectorAll(".row");
 const form = document.querySelector("form");
 const input = document.querySelector("input");
-const WORD_OF_THE_DAY = getRandomArrayElement(validWords);
+const CORRECT_WORD = getRandomArrayElement(validWords);
 
-const guesses = [];
+let currentRowIndex = 0;
 
-console.log(WORD_OF_THE_DAY);
+input.focus();
 
-form.addEventListener("submit", e => {
+console.log(CORRECT_WORD);
+
+form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const word = input.value.toUpperCase();
-  const isTooShort = word.length < 5;
-  const isInvalidWord = !validWords.includes(word);
-  const hasNoMoreAttempts = guesses.length >= 6;
+  const guess = input.value.toUpperCase();
+  const isTooShort = guess.length < 5;
+  const isInvalidWord = !validWords.includes(guess);
+  const isGameOver = currentRowIndex >= 6;
+  if (isTooShort || isInvalidWord || isGameOver) return;
 
-  if (isTooShort || isInvalidWord || hasNoMoreAttempts) return;
-
-  addGuess(word);
+  addGuess(guess);
   input.value = "";
 });
 
 function addGuess(guess) {
-  const chars = guess.split("");
-  guesses.push(chars);
+  const [...tiles] = rows[currentRowIndex++].children;
+  let correctWord = CORRECT_WORD.split("");
 
-  const [...tiles] = rows[guesses.length - 1].children;
-
-  let [...word] = WORD_OF_THE_DAY;
   tiles.forEach((tile, i) => {
-    const char = chars[i];
-    const containsChar = word.includes(char);
-    const isSamePosition = word[i] === char;
+    tile.textContent = guess[i];
+    tile.classList.add("gray");
 
-    tile.textContent = char;
-    if (isSamePosition) {
+    if (guess[i] === correctWord[i]) {
       tile.classList.add("green");
-      word[i] = " ";
-    } else if (containsChar) {
+      correctWord[i] = null;
+    }
+  });
+
+  tiles.forEach((tile, i) => {
+    if (correctWord.includes(guess[i])) {
       tile.classList.add("yellow");
-      word = word.join("").replace(char, "").split("");
-    } else {
-      tile.classList.add("gray");
+      const index = correctWord.indexOf(guess[i]);
+      correctWord[index] = null;
     }
   });
 }
@@ -49,11 +48,3 @@ function getRandomArrayElement(array) {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
-
-//  <div class="row data-row-1">
-//    <div class="tile tile-0"></div>
-//    <div class="tile tile-1"></div>
-//    <div class="tile tile-2"></div>
-//    <div class="tile tile-3"></div>
-//    <div class="tile tile-4"></div>
-//  </div>;
