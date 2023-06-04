@@ -21,21 +21,14 @@ h1 {
   font-size: 4rem;
 }
 
-#board {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-}
-
 .row {
   display: flex;
-  gap: 0.5rem;
 }
 
 .tile {
   width: 60px;
   height: 60px;
+  margin: 0.25rem;
   border: 2px solid hsla(40, 50%, 80%, 0.3);
   font-size: 2rem;
   font-weight: bold;
@@ -44,7 +37,6 @@ h1 {
   align-items: center;
   justify-content: center;
   color: white;
-  border-radius: 0.25rem;
 }
 
 .gray,
@@ -83,7 +75,7 @@ input {
   background-color: hsla(210, 10%, 60%);
   color: hsl(200, 20%, 7%);
   font-size: 1.2rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 
 button {
@@ -94,7 +86,7 @@ button {
   text-transform: uppercase;
   color: white;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 }
 
