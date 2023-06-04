@@ -1,4 +1,5 @@
 import { validWords } from "./data.js";
+import { createButton, createAlert, getRandomArrayElement } from "./helpers.js";
 
 const alertContainer = document.getElementById("alert-container");
 const rows = document.querySelectorAll(".row");
@@ -56,11 +57,6 @@ function addGuess(guess) {
   checkWin() && endGame();
 }
 
-function getRandomArrayElement(array) {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
-}
-
 function alertMessage(message) {
   const alertElement = createAlert(message);
   showAlert(alertElement);
@@ -103,18 +99,4 @@ function startGame() {
 function checkWin() {
   const [...tiles] = rows[nextRowIndex - 1].children;
   return tiles.every((tile) => tile.classList.contains("green"));
-}
-
-function createButton(message, handleClick) {
-  const button = document.createElement("button");
-  button.textContent = message;
-  button.addEventListener("click", handleClick);
-  return button;
-}
-
-function createAlert(message) {
-  const alertElement = document.createElement("div");
-  alertElement.classList.add("alert");
-  alertElement.textContent = message;
-  return alertElement;
 }
