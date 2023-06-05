@@ -13,6 +13,7 @@ export function createAlert(message) {
 }
 
 export function getRandomArrayElement(array) {
+  if (!array) return;
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
