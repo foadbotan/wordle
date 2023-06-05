@@ -1,15 +1,13 @@
 {
   "name": "wordle",
   "version": "1.0.0",
-  "description": "This is my version of the famous word game [Wordle](https://www.nytimes.com/games/wordle/index.html).",
-  "main": "index.js",
+  "description": "This is my version of the famous word game Wordle.",
   "scripts": {
     "test": "vitest"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "devDependencies": {
+    "happy-dom": "^9.20.3",
     "vitest": "^0.31.4"
   }
 }
