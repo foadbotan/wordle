@@ -3,7 +3,7 @@ import {
   createButton,
   createAlert,
   getRandomWord,
-  logHints,
+  getSimilarWords,
 } from "./helpers.js";
 
 const alertContainer = document.getElementById("alert-container");
@@ -20,7 +20,8 @@ window.showAnswer = () => {
   console.log("ANSWER:", CORRECT_WORD);
 };
 window.showHint = () => {
-  logHints(validWords, CORRECT_WORD);
+  const hints = getSimilarWords(validWords, CORRECT_WORD);
+  console.log("HINTS:", hints);
 };
 
 input.focus();

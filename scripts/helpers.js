@@ -18,9 +18,9 @@ export function getRandomWord(array) {
   return array[randomIndex] || "";
 }
 
-export function logHints(validWords, correctWord) {
+export function getSimilarWords(validWords, correctWord) {
   const similarWords = validWords.filter(isSimilarWord);
-  console.log("HINT: List of similar words", similarWords.slice(0, 20));
+  return similarWords.slice(0, 10);
 
   function isSimilarWord(word) {
     const regex = new RegExp(`[${correctWord}]`, "g");
