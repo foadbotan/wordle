@@ -20,8 +20,8 @@ window.showAnswer = () => {
   console.log("ANSWER:", CORRECT_WORD);
 };
 window.showHint = () => {
-  const hints = getSimilarWords(validWords, CORRECT_WORD);
-  console.log("HINTS:", hints);
+  const similarWords = getSimilarWords(validWords, CORRECT_WORD);
+  console.log("HINT: This is a list of similar words - ", similarWords);
 };
 
 input.focus();
