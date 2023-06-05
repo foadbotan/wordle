@@ -12,10 +12,10 @@ export function createAlert(message) {
   return alertElement;
 }
 
-export function getRandomArrayElement(array) {
-  if (!array) return;
+export function getRandomWord(array) {
+  if (!array) return "";
   const randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
+  return array[randomIndex] || "";
 }
 
 export function logHints(validWords, correctWord) {

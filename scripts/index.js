@@ -2,7 +2,7 @@ import { validWords } from "./data.js";
 import {
   createButton,
   createAlert,
-  getRandomArrayElement,
+  getRandomWord,
   logHints,
 } from "./helpers.js";
 
@@ -12,7 +12,7 @@ const form = document.getElementById("newGuessForm");
 const input = document.getElementById("newGuessInput");
 const formButton = document.getElementById("newGuessButton");
 
-let CORRECT_WORD = getRandomArrayElement(validWords);
+let CORRECT_WORD = getRandomWord(validWords);
 let nextRowIndex = 0;
 logHints(validWords, CORRECT_WORD);
 console.log(CORRECT_WORD);
