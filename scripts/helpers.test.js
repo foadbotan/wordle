@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import { describe, test, expect } from "vitest";
 import { getRandomWord, createAlert, createButton } from "./helpers.js";
 
@@ -18,12 +19,33 @@ describe("getRandomWord", () => {
   });
 });
 
-// export function createAlert(message) {
-//   const alertElement = document.createElement("div");
-//   alertElement.classList.add("alert");
-//   alertElement.textContent = message;
-//   return alertElement;
-// }
+describe("createAlert", () => {
+  const message = "alert message";
+  const alertElement = createAlert(message);
 
-// write vitest tests for createAlert
-// describe("createAlert", () => {
+  test("returns an element with the provided message", () => {
+    expect(alertElement.textContent).toBe(message);
+  });
+
+  test("returns an element with the .alert class", () => {
+    expect(alertElement.classList.value).toContain("alert");
+  });
+});
+
+describe("createButton", () => {
+  const message = "click me";
+  const handleClick = () => {};
+  const buttonElement = createButton(message, handleClick);
+
+  test("returns a button element", () => {
+    expect(buttonElement.tagName).toBe("BUTTON");
+  });
+
+  test("returns a button element with the provided text", () => {
+    expect(buttonElement.textContent).toBe(message);
+  });
+
+  test("returns a button element with the provided click handler", () => {
+    expect(buttonElement.onclick).toBe(handleClick);
+  });
+});
