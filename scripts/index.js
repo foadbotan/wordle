@@ -86,9 +86,6 @@ function alertGameEnd() {
 
 function showAlert(alert) {
   alertContainer.prepend(alert);
-  setTimeout(() => {
-    alert.classList.add("show-alert");
-  }, 100);
 }
 
 function hideAlert(alertElement) {

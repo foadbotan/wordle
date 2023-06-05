@@ -124,13 +124,14 @@ button:hover {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  animation: slideIn 0.5s ease forwards;
 }
 
-.show-alert {
-  animation: show 0.5s ease forwards;
+.hide-alert {
+  animation: slideOut 0.5s ease forwards;
 }
 
-@keyframes show {
+@keyframes slideIn {
   0% {
     transform: translate(-100%);
   }
@@ -140,11 +141,7 @@ button:hover {
   }
 }
 
-.hide-alert {
-  animation: hide 0.5s ease forwards;
-}
-
-@keyframes hide {
+@keyframes slideOut {
   0% {
     transform: translate(0);
     opacity: 1;
