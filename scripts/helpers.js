@@ -1,7 +1,7 @@
 export function createButton(message, handleClick) {
   const button = document.createElement("button");
   button.textContent = message;
-  button.addEventListener("click", handleClick);
+  button.onclick = handleClick;
   return button;
 }
 
