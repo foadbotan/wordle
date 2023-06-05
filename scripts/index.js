@@ -15,14 +15,7 @@ const formButton = document.getElementById("newGuessButton");
 let CORRECT_WORD = getRandomWord(validWords);
 let nextRowIndex = 0;
 
-console.log("Call showAnswer() to see the answer and showHint() to see hints");
-window.showAnswer = () => {
-  console.log("ANSWER:", CORRECT_WORD);
-};
-window.showHint = () => {
-  const similarWords = getSimilarWords(validWords, CORRECT_WORD);
-  console.log("HINT: This is a list of similar words - ", similarWords);
-};
+logHints();
 
 input.focus();
 
@@ -110,4 +103,19 @@ function startGame() {
 function checkWin() {
   const [...tiles] = rows[nextRowIndex - 1].children;
   return tiles.every((tile) => tile.classList.contains("green"));
+}
+
+function logHints() {
+  console.log(
+    "Call showAnswer() to see the answer and showHint() to see hints"
+  );
+
+  window.showAnswer = () => {
+    console.log("ANSWER:", CORRECT_WORD);
+  };
+
+  window.showHint = () => {
+    const similarWords = getSimilarWords(validWords, CORRECT_WORD);
+    console.log("HINT: This is a list of similar words - ", similarWords);
+  };
 }
