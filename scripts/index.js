@@ -14,8 +14,14 @@ const formButton = document.getElementById("newGuessButton");
 
 let CORRECT_WORD = getRandomWord(validWords);
 let nextRowIndex = 0;
-logHints(validWords, CORRECT_WORD);
-console.log(CORRECT_WORD);
+
+console.log("Call showAnswer() to see the answer and showHint() to see hints");
+window.showAnswer = () => {
+  console.log("ANSWER:", CORRECT_WORD);
+};
+window.showHint = () => {
+  logHints(validWords, CORRECT_WORD);
+};
 
 input.focus();
 
