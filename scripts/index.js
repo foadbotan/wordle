@@ -36,8 +36,8 @@ function handleNewGuess(e) {
   const isInvalidWord = !validWords.includes(guess);
   const noMoreTurns = nextRowIndex === 5;
 
-  if (isTooShort) return alertMessage("Not enough letters");
-  if (isInvalidWord) return alertMessage("Not in word list");
+  if (isTooShort) return showAlert("Not enough letters", { duration: 2000 });
+  if (isInvalidWord) return showAlert("Not in word list", { duration: 2000 });
 
   addGuess(guess);
   input.value = "";
@@ -76,23 +76,18 @@ function addGuess(guess) {
   }
 }
 
-function alertMessage(message) {
-  const alertElement = createAlert(message);
-  showAlert(alertElement);
-  setTimeout(() => hideAlert(alertElement), 2000);
-}
-
 function alertGameEnd() {
   const message = checkWin() ? "You Win!" : "You Lose!";
-  const alertElement = createAlert(message);
   const button = createButton("Play Again", startGame);
-
-  alertElement.append(button);
-  showAlert(alertElement);
+  showAlert(message, { children: [button] });
 }
 
-function showAlert(alert) {
-  alertContainer.prepend(alert);
+function showAlert(message, { duration, children }) {
+  const alertElement = createAlert(message);
+  alertContainer.prepend(alertElement);
+
+  children && alertElement.append(...children);
+  duration && setTimeout(() => hideAlert(alertElement), duration);
 }
 
 function hideAlert(alertElement) {
