@@ -8,9 +8,9 @@ import {
 
 const alertContainer = document.getElementById("alert-container");
 const rows = document.querySelectorAll(".row");
-const form = document.getElementById("newGuessForm");
-const input = document.getElementById("newGuessInput");
-const formButton = document.getElementById("newGuessButton");
+const form = document.getElementById("new-guess-form");
+const input = document.getElementById("new-guess-input");
+const formButton = document.getElementById("new-guess-button");
 
 let CORRECT_WORD = getRandomWord(validWords);
 let nextRowIndex = 0;
