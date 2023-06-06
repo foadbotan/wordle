@@ -29,8 +29,8 @@ function handleNewGuess(e) {
   const isInvalidWord = !validWords.includes(guess);
   const noMoreTurns = nextRowIndex === 5;
 
-  if (isTooShort) return showAlert("Not enough letters", { duration: 2000 });
-  if (isInvalidWord) return showAlert("Not in word list", { duration: 2000 });
+  if (isTooShort) return alertError("Not enough letters");
+  if (isInvalidWord) return alertError("Not in word list");
 
   addGuess(guess);
   input.value = "";
@@ -39,8 +39,9 @@ function handleNewGuess(e) {
 }
 
 function addGuess(guess) {
-  const [...tiles] = rows[nextRowIndex++].children;
-  const correctWord = CORRECT_WORD.split("");
+  const unmatchedChars = Array.from(CORRECT_WORD);
+  const [...tiles] = rows[nextRowIndex].children;
+  nextRowIndex++;
 
   tiles.forEach(showTile);
   tiles.forEach(showExactMatches);
@@ -52,35 +53,40 @@ function addGuess(guess) {
   }
 
   function showExactMatches(tile, i) {
-    const isExactMatch = guess[i] === correctWord[i];
+    const isExactMatch = guess[i] === unmatchedChars[i];
     if (isExactMatch) {
       tile.classList.add("green");
-      correctWord[i] = null;
+      unmatchedChars[i] = null;
     }
   }
 
   function showPartialMatches(tile, i) {
-    const index = correctWord.indexOf(guess[i]);
-    const isPartialMatch = index !== -1;
+    const isPartialMatch = unmatchedChars.includes(guess[i]);
     if (isPartialMatch) {
       tile.classList.add("yellow");
-      correctWord[index] = null;
+      const index = unmatchedChars.indexOf(guess[i]);
+      unmatchedChars[index] = null;
     }
   }
 }
 
-function alertGameEnd() {
-  const message = checkWin() ? "You Win!" : "You Lose!";
-  const button = createButton("Play Again", startGame);
-  showAlert(message, { children: [button] });
+function alertError(message) {
+  const alertElement = createAlert(message);
+  showAlert(alertElement);
+  setTimeout(() => hideAlert(alertElement), 2000);
 }
 
-function showAlert(message, { duration, children }) {
+function alertGameEnd() {
+  const message = checkWin() ? "You Win!" : "You Lose!";
   const alertElement = createAlert(message);
-  alertContainer.prepend(alertElement);
+  const button = createButton("Play Again", startGame);
+  alertElement.append(button);
 
-  children && alertElement.append(...children);
-  duration && setTimeout(() => hideAlert(alertElement), duration);
+  showAlert(alertElement);
+}
+
+function showAlert(alertElement) {
+  alertContainer.prepend(alertElement);
 }
 
 function hideAlert(alertElement) {
