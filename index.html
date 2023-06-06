@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wordle</title>
     <link rel="stylesheet" href="style.css" />
-    <script type="module" src="./scripts/app.js"></script>
+    <script type="module" src="./script.js"></script>
   </head>
   <body>
     <h1>Wordle</h1>
     <div id="board">
       <div id="alert-container"></div>
       <div class="row">
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
+        <div class="tile yellow">a</div>
+        <div class="tile green">b</div>
+        <div class="tile gray">c</div>
+        <div class="tile">d</div>
         <div class="tile"></div>
       </div>
       <div class="row">
@@ -55,9 +55,43 @@
         <div class="tile"></div>
       </div>
     </div>
-    <form id="new-guess-form">
-      <input type="text" id="new-guess-input" maxlength="5" />
-      <button id="new-guess-button">Guess the word</button>
-    </form>
+    <div id="keyboard">
+      <div class="keyboard-row">
+        <div class="keyboard-key">q</div>
+        <div class="keyboard-key">w</div>
+        <div class="keyboard-key">e</div>
+        <div class="keyboard-key">r</div>
+        <div class="keyboard-key">t</div>
+        <div class="keyboard-key">y</div>
+        <div class="keyboard-key">u</div>
+        <div class="keyboard-key">i</div>
+        <div class="keyboard-key">o</div>
+        <div class="keyboard-key">p</div>
+      </div>
+      <div class="keyboard-row">
+        <div class="keyboard-spacer"></div>
+        <div class="keyboard-key">a</div>
+        <div class="keyboard-key">s</div>
+        <div class="keyboard-key">d</div>
+        <div class="keyboard-key">f</div>
+        <div class="keyboard-key">g</div>
+        <div class="keyboard-key">h</div>
+        <div class="keyboard-key">j</div>
+        <div class="keyboard-key">k</div>
+        <div class="keyboard-key">l</div>
+        <div class="keyboard-spacer"></div>
+      </div>
+      <div class="keyboard-row">
+        <div class="keyboard-key key-long">enter</div>
+        <div class="keyboard-key">z</div>
+        <div class="keyboard-key">x</div>
+        <div class="keyboard-key">c</div>
+        <div class="keyboard-key">v</div>
+        <div class="keyboard-key">b</div>
+        <div class="keyboard-key">n</div>
+        <div class="keyboard-key">m</div>
+        <div class="keyboard-key key-long">delete</div>
+      </div>
+    </div>
   </body>
 </html>
