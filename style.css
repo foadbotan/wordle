@@ -1,8 +1,8 @@
 :root {
   --black: hsl(240, 3%, 7%);
-  --light-gray: hsl(200, 1%, 51%);
-  --gray: hsl(210, 0%, 40%);
-  --dark-gray: hsl(240, 2%, 23%);
+  --gray-100: hsl(200, 1%, 51%);
+  --gray-200: hsl(210, 1%, 34%);
+  --gray-300: hsl(240, 2%, 23%);
   --yellow: hsl(49, 51%, 47%);
   --green: hsl(115, 29%, 43%);
 }
@@ -43,7 +43,7 @@ h1 {
   width: 60px;
   height: 60px;
   margin: 3px;
-  border: 2px solid var(--dark-gray);
+  border: 2px solid var(--gray-300);
   font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -53,29 +53,33 @@ h1 {
   color: white;
 }
 
-.gray,
-.green,
-.yellow {
+.active {
+  border: 2px solid var(--gray-200);
+  animation: pop-in 100ms ease;
+}
+
+@keyframes pop-in {
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.wrong,
+.correct,
+.present {
   border: none;
 }
 
-.gray {
-  background-color: var(--dark-gray);
+.wrong {
+  background-color: var(--gray-300);
 }
 
-.green {
+.correct {
   background-color: var(--green);
 }
 
-.yellow {
+.present {
   background-color: var(--yellow);
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
 }
 
 #alert-container {
@@ -150,9 +154,9 @@ form {
   gap: 6px;
 }
 
-.keyboard-key {
+.keyboard-button {
   flex: 1;
-  background-color: var(--light-gray);
+  background-color: var(--gray-100);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -161,12 +165,14 @@ form {
   font-weight: bold;
   font-size: 1.25rem;
   text-transform: uppercase;
-}
-.keyboard-key:hover {
-  background-color: var(--gray);
+  border: none;
 }
 
-.key-long {
+.keyboard-button:hover {
+  background-color: var(--gray-200);
+}
+
+.long {
   flex: 1.5;
   font-size: 0.8rem;
 }
