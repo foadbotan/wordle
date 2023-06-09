@@ -53,15 +53,15 @@ function addTile(key) {
   CURRENT_INDEX.tile++;
 }
 
-function checkAnswer(tiles) {
+function checkAnswer() {
   const isTooShort = answer.length !== CORRECT_WORD.length;
   if (isTooShort) {
-    showAlert("Not enough letters");
+    alertError("Answer is too short");
     return;
   }
   const isInvalidWord = !validWords.includes(answer);
   if (isInvalidWord) {
-    showAlert("Not a valid word");
+    alertError("Not in word list");
     return;
   }
 
@@ -72,16 +72,33 @@ function checkAnswer(tiles) {
 }
 
 function endGame() {
-  answer === CORRECT_WORD ? showAlert("You won!") : showAlert("You lost!");
+  answer === CORRECT_WORD
+    ? alertGameEnd("You won!")
+    : alertGameEnd("You lost!");
   isGameOver = true;
 }
 
 function flipTiles() {
-  console.log("flipping tiles");
-}
+  const tiles = getCurrentRow();
+  let unmatchedLetters = "";
 
-function showAlert(message) {
-  console.log(message);
+  tiles.forEach(tile => tile.classList.add("flipped"));
+  tiles.forEach(flipExactMatch);
+  tiles.forEach(flipPartialMatch);
+
+  function flipExactMatch(tile, i) {
+    const isExactMatch = answer[i] === CORRECT_WORD[i];
+    if (isExactMatch) {
+      tile.classList.add("exact-match");
+    } else {
+      unmatchedLetters += CORRECT_WORD[i];
+    }
+  }
+
+  function flipPartialMatch(tile, i) {
+    const isPartialMatch = unmatchedLetters.includes(answer[i]);
+    if (isPartialMatch) tile.classList.add("partial-match");
+  }
 }
 
 function moveToNextRow() {
@@ -101,10 +118,56 @@ function getPreviousTile() {
 }
 
 function getCurrentRow() {
-  return rows[CURRENT_INDEX.row].children;
+  const tiles = rows[CURRENT_INDEX.row].children;
+  return [...tiles];
 }
 
 function getRandomElement(array) {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
+}
+
+function createButton(message, handleClick) {
+  const button = document.createElement("button");
+  button.textContent = message;
+  button.classList.add("new-game-button");
+  button.addEventListener("click", handleClick);
+  return button;
+}
+
+function createAlert(message) {
+  const alertElement = document.createElement("div");
+  alertElement.classList.add("alert");
+  alertElement.textContent = message;
+  return alertElement;
+}
+
+function alertError(message) {
+  const alertElement = createAlert(message);
+  showAlert(alertElement);
+  setTimeout(() => hideAlert(alertElement), 2000);
+}
+
+function alertGameEnd() {
+  const message = answer === CORRECT_WORD ? "You Win!" : "You Lose!";
+  const alertElement = createAlert(message);
+  const button = createButton("Play Again", startGame);
+  alertElement.append(button);
+
+  showAlert(alertElement);
+}
+
+function showAlert(alertElement) {
+  alertContainer.prepend(alertElement);
+}
+
+function hideAlert(alertElement) {
+  alertElement.classList.add("hide-alert");
+  alertElement.addEventListener("animationend", () => {
+    alertElement.remove();
+  });
+}
+
+function startGame() {
+  location.reload();
 }
