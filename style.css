@@ -1,8 +1,8 @@
 :root {
   --black: hsl(240, 3%, 7%);
-  --gray-100: hsl(200, 1%, 51%);
-  --gray-200: hsl(210, 1%, 34%);
-  --gray-300: hsl(240, 2%, 23%);
+  --gray-100: hsl(200, 1%, 100%, 0.2);
+  --gray-200: hsl(210, 1%, 100%, 0.3);
+  --gray-300: hsl(240, 2%, 100%, 0.4);
   --yellow: hsl(49, 51%, 47%);
   --green: hsl(115, 29%, 43%);
 }
@@ -15,26 +15,41 @@
 }
 
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  margin: 0 auto;
   gap: 1rem;
-  padding: 1rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: var(--black);
+}
+
+header {
+  height: 5rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid var(--gray-300);
+}
+
+main {
+  min-height: calc(100vh - 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 1rem;
 }
 
 #board {
   position: relative;
   width: 100%;
   max-width: 24rem;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  background-color: hsl(0, 0%, 100%, 0.1);
 }
 
 h1 {
-  font-size: clamp(1.5rem, 8vw, 4rem);
+  font-size: clamp(1.5rem, 8vw, 3rem);
 }
 
 .row {
@@ -45,7 +60,8 @@ h1 {
   width: 100%;
   aspect-ratio: 1;
   margin: 0.25rem;
-  border: 2px solid var(--gray-300);
+  border: 2px solid transparent;
+  background-color: hsl(0, 0%, 30%, 0.1);
   font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -53,10 +69,11 @@ h1 {
   align-items: center;
   justify-content: center;
   color: white;
+  border-radius: 0.25rem;
 }
 
-.active {
-  border: 2px solid var(--gray-200);
+.filled {
+  border-color: var(--gray-100);
   animation: pop-in 100ms ease;
 }
 
@@ -66,33 +83,28 @@ h1 {
   }
 }
 
-.wrong,
-.correct,
-.present {
+.flipped {
   border: none;
+  background-color: var(--gray-200);
 }
 
-.wrong {
-  background-color: var(--gray-300);
-}
-
-.correct {
+.exact-match {
   background-color: var(--green);
 }
 
-.present {
+.partial-match {
   background-color: var(--yellow);
 }
 
 #alert-container {
   position: absolute;
-  width: 100%;
-  top: -10rem;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 1rem;
+  z-index: 1;
 }
 
 .alert {
@@ -160,13 +172,14 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-weight: bold;
   font-size: clamp(1rem, 5vw, 1.5rem);
   text-transform: uppercase;
   border: none;
   margin: 0.25rem;
+  background-color: transparent;
 }
 
 .keyboard-button:hover {
@@ -175,10 +188,26 @@ h1 {
 
 .long {
   flex: 1.5;
-  font-size: 0.8rem;
-  background-color: var(--gray-300);
+  border: var(--gray-300) 2px solid;
+  display: block;
 }
 
 .keyboard-spacer {
   flex: 0.5;
+}
+
+.new-game-button {
+  font-weight: bold;
+  padding: 0.75rem;
+  background-color: var(--black);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.new-game-button:hover {
+  background-color: var(--gray-300);
 }
