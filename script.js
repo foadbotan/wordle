@@ -2,6 +2,9 @@ import { validWords } from "./data.js";
 
 const alertContainer = document.getElementById("alert-container");
 const rows = document.querySelectorAll(".row");
+const dialog = document.querySelector("#dialog");
+const dialogButton = document.querySelector("#dialog-button");
+const howToButton = document.querySelector("#how-to-button");
 const [...keyboardButtons] = document.querySelectorAll(".keyboard-button");
 
 const CORRECT_WORD = getRandomElement(validWords);
@@ -24,6 +27,9 @@ keyboardButtons.forEach(button => {
     handleKeyPress(key);
   });
 });
+
+dialogButton.addEventListener("click", () => dialog.close());
+howToButton.addEventListener("click", () => dialog.show());
 
 function handleKeyPress(key) {
   if (isGameOver) return;

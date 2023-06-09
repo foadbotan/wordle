@@ -9,8 +9,28 @@
     <script type="module" src="./script.js"></script>
   </head>
   <body>
+    <dialog id="dialog" open>
+      <button id="dialog-button">Close</button>
+      <h2>How To Play</h2>
+      <p>Guess the Wordle in 6 tries.</p>
+      <ul>
+        <li>Each guess must be a valid 5-letter word.</li>
+        <li>
+          The color of the tiles will change to show how close your guess was to
+          the word.
+        </li>
+        <li>Examples</li>
+      </ul>
+      <img src="screenshot.png" alt="screenshot of game" />
+      <ul>
+        <li>W is in the word and in the correct spot.</li>
+        <li>I is in the word but in the wrong spot.</li>
+        <li>U is not in the word in any spot.</li>
+      </ul>
+    </dialog>
     <header>
       <h1>Wordle</h1>
+      <button id="how-to-button">?</button>
     </header>
     <main>
       <div id="board">
