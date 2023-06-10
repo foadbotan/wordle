@@ -51,3 +51,4 @@ Additional features that could be added to the game:
 - Save to localStorage: Save game progress, allowing players to continue from where they left off even after closing the browser.
 - Game statistics: Keep track of game statistics, providing players with information such as the number of games played, games won, and success rate.
 - Social media sharing: Allow players to easily share their wins on social media, to foster competition and engagement.
+- Highlight keys that have been used
