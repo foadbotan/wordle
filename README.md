@@ -16,7 +16,7 @@ The game logic of Wordle is straightforward, with the challenge lying in prevent
 
 Additionally, testing was implemented on a separate branch (testing) using Vitest.
 
-This was my first experience with testing, and I found it to be productive. I had to isolating the game logic from DOM manipulations to implement unit tests. This separation of concerns lead to improved code organization and simplification.
+This was my first experience with testing, and I found it to be productive. I had to seperate game logic from DOM manipulations to implement unit tests. This separation of concerns lead to improved code organization and simplification.
 
 ## Installation (Testing Branch)
 
