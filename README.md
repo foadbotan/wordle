@@ -31,9 +31,21 @@ Please note that there are no installation instructions for the main branch, as 
 
 An alerting system was built from scratch to provide notifications, but it currently lacks keyboard support, specifically the ability to press Enter to start a new game. To address this limitation, work has begun on transitioning to using the HTML dialog element, which comes with built-in form support. The "How-To" dialog has already been implemented and functions well, but it lacks the animated transitions found in the custom alerts.
 
-## Extra Features to Add
+## Extra Features
 
-Additional features I could add:
+The following features were added to the game:
+
+- Secret hints hidden in the console: The console can be used to reveal the answer or a hint. This is useful for testing purposes, or if you're stuck and need a little help.
+- How-To: A dialog that explains the rules of the game.
+- Keyboard Support: The game can be played using the keyboard, with the Enter key used to submit guesses.
+- Custom Alerts: Custom alerts were built from scratch to provide notifications to the player.
+- Testing: Unit tests were implemented using Vitest.
+- Animations: Animations were added to the game to provide a more engaging experience.
+- Responsive Design: The game is fully responsive and can be played on any device.
+
+## Todo
+
+Additional features that could be added to the game:
 
 - Custom reset function: Instead of reloading the page, a custom reset function that provides a seamless game restart experience.
 - Save to localStorage: Save game progress, allowing players to continue from where they left off even after closing the browser.
