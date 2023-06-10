@@ -23,7 +23,10 @@ let currentTileIndex = 0;
 let isGameOver = false;
 let answer = "";
 
-console.log(CORRECT_WORD);
+/**--------------------------------------------
+ *               😉🤫
+ *---------------------------------------------**/
+logHints();
 
 /**--------------------------------------------
  *               Add Event Listeners
@@ -219,4 +222,33 @@ function createAlert(message) {
 function getRandomElement(array) {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
+}
+
+/**--------------------------------------------
+ *              Log Hints
+ *---------------------------------------------**/
+
+function logHints() {
+  console.log("Call showAnswer() to see the answer");
+  console.log("Call showHint() to see hints");
+
+  window.showAnswer = () => {
+    console.log("ANSWER:", CORRECT_WORD);
+  };
+
+  window.showHint = () => {
+    const similarWords = getSimilarWords(validWords, CORRECT_WORD);
+    console.log("HINT: This is a list of similar words - ", similarWords);
+  };
+}
+
+function getSimilarWords() {
+  const similarWords = validWords.filter(isSimilarWord);
+  return similarWords.slice(0, 10);
+}
+
+function isSimilarWord(word) {
+  const regex = new RegExp(`[${CORRECT_WORD}]`, "g");
+  const matches = word.match(regex);
+  return matches && matches.length >= 4;
 }
