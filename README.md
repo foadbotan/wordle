@@ -2,6 +2,8 @@
 
 This repository is clone of the popular game Wordle, along with additional features and improvements. You can try the live version of the game [here](https://foadbotan.github.io/wordle/).
 
+![Wordle Screenshot](./screenshot.png)
+
 ## Technologies Used
 
 The game is built using HTML, CSS, and JavaScript. It is hosted on GitHub Pages. Tested using Vitest (❤️)
