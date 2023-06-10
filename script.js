@@ -1,63 +1,58 @@
+/**--------------------------------------------
+ *               Import Data
+ *---------------------------------------------**/
 import { validWords } from "./data.js";
 
-const alertContainer = document.getElementById("alert-container");
+/**--------------------------------------------
+ *               Get DOM Elements
+ *---------------------------------------------**/
+const alertContainer = document.querySelector("#alert-container");
 const rows = document.querySelectorAll(".row");
 const dialog = document.querySelector("#dialog");
 const dialogButton = document.querySelector("#dialog-button");
 const howToButton = document.querySelector("#how-to-button");
 const [...keyboardButtons] = document.querySelectorAll(".keyboard-button");
 
+/**--------------------------------------------
+ *               Set Game State
+ *---------------------------------------------**/
 const CORRECT_WORD = getRandomElement(validWords);
-const CURRENT_INDEX = { row: 0, tile: 0 };
-const MAX_ROUNDS = rows.length;
+const MAX_TRIES = rows.length - 1;
+let currentRowIndex = 0;
+let currentTileIndex = 0;
 let isGameOver = false;
-
 let answer = "";
 
 console.log(CORRECT_WORD);
 
+/**--------------------------------------------
+ *               Add Event Listeners
+ *---------------------------------------------**/
 document.addEventListener("keydown", e => {
   const key = e.key;
-  handleKeyPress(key);
+  handleNewKey(key);
 });
 
 keyboardButtons.forEach(button => {
   button.addEventListener("click", e => {
     const key = e.target.dataset.key;
-    handleKeyPress(key);
+    handleNewKey(key);
   });
 });
 
 dialogButton.addEventListener("click", () => dialog.close());
 howToButton.addEventListener("click", () => dialog.show());
 
-function handleKeyPress(key) {
+function handleNewKey(key) {
   if (isGameOver) return;
   if (key === "Backspace") deleteTile();
   if (key === "Enter") checkAnswer();
   if (key.match(/^[a-z]$/)) addTile(key);
 }
 
-function deleteTile(tile) {
-  const previousTile = getPreviousTile();
-  if (!previousTile) return;
-
-  answer = answer.slice(0, -1);
-  previousTile.textContent = "";
-  previousTile.classList.remove("filled");
-  CURRENT_INDEX.tile--;
-}
-
-function addTile(key) {
-  const currentTile = getCurrentTile();
-  const isRowFull = CURRENT_INDEX.tile === CORRECT_WORD.length;
-  if (isRowFull) return;
-
-  answer += key.toUpperCase();
-  currentTile.textContent = key;
-  currentTile.classList.add("filled");
-  CURRENT_INDEX.tile++;
-}
+/**--------------------------------------------
+ *               Game Functions
+ *---------------------------------------------**/
 
 function checkAnswer() {
   const isTooShort = answer.length !== CORRECT_WORD.length;
@@ -71,20 +66,57 @@ function checkAnswer() {
     return;
   }
 
-  const gameOver = CURRENT_INDEX.row === MAX_ROUNDS;
   flipTiles();
-  if (answer === CORRECT_WORD || gameOver) endGame();
+  checkGameOver();
   moveToNextRow();
 }
 
 function endGame() {
-  answer === CORRECT_WORD
-    ? alertGameEnd("You won!")
-    : alertGameEnd("You lost!");
+  if (answer === CORRECT_WORD) {
+    alertGameEnd("You won!");
+  } else {
+    alertGameEnd("You lost!");
+  }
   isGameOver = true;
 }
 
+function startGame() {
+  location.reload();
+}
+
+function checkGameOver() {
+  const noMoreTries = currentRowIndex === MAX_TRIES;
+  const isCorrect = answer === CORRECT_WORD;
+  if (isCorrect || noMoreTries) endGame();
+}
+
+/**--------------------------------------------
+ *               Modify Tile Elements
+ *---------------------------------------------**/
+
+function deleteTile(tile) {
+  const previousTile = getPreviousTile();
+  if (!previousTile) return;
+
+  answer = answer.slice(0, -1);
+  previousTile.textContent = "";
+  previousTile.classList.remove("filled");
+  currentTileIndex--;
+}
+
+function addTile(key) {
+  const currentTile = getCurrentTile();
+  const isRowFull = currentTileIndex === CORRECT_WORD.length;
+  if (isRowFull) return;
+
+  answer += key.toUpperCase();
+  currentTile.textContent = key;
+  currentTile.classList.add("filled");
+  currentTileIndex++;
+}
+
 function flipTiles() {
+  console.log("flipping tiles");
   const tiles = getCurrentRow();
   let unmatchedLetters = "";
 
@@ -107,31 +139,63 @@ function flipTiles() {
   }
 }
 
+/**--------------------------------------------
+ *               Navigate Game Board
+ *---------------------------------------------**/
+
 function moveToNextRow() {
   answer = "";
-  CURRENT_INDEX.tile = 0;
-  CURRENT_INDEX.row++;
+  currentTileIndex = 0;
+  currentRowIndex++;
 }
 
 function getCurrentTile() {
   const currentRow = getCurrentRow();
-  return currentRow[CURRENT_INDEX.tile];
+  return currentRow[currentTileIndex];
 }
 
 function getPreviousTile() {
   const currentRow = getCurrentRow();
-  return currentRow[CURRENT_INDEX.tile - 1];
+  return currentRow[currentTileIndex - 1];
 }
 
 function getCurrentRow() {
-  const tiles = rows[CURRENT_INDEX.row].children;
+  const tiles = rows[currentRowIndex].children;
   return [...tiles];
 }
 
-function getRandomElement(array) {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
+/**--------------------------------------------
+ *               Alert Functions
+ *---------------------------------------------**/
+
+function alertError(message) {
+  const alertElement = createAlert(message);
+  showAlert(alertElement);
+  setTimeout(() => hideAlert(alertElement), 2000);
 }
+
+function alertGameEnd() {
+  const message = answer === CORRECT_WORD ? "You Win!" : "You Lose!";
+  const alertElement = createAlert(message);
+  const button = createButton("Play Again", startGame);
+  alertElement.append(button);
+  showAlert(alertElement);
+}
+
+function showAlert(alertElement) {
+  alertContainer.prepend(alertElement);
+}
+
+function hideAlert(alertElement) {
+  alertElement.classList.add("hide-alert");
+  alertElement.addEventListener("animationend", () => {
+    alertElement.remove();
+  });
+}
+
+/**--------------------------------------------
+ *               Create DOM Elements
+ *---------------------------------------------**/
 
 function createButton(message, handleClick) {
   const button = document.createElement("button");
@@ -148,32 +212,11 @@ function createAlert(message) {
   return alertElement;
 }
 
-function alertError(message) {
-  const alertElement = createAlert(message);
-  showAlert(alertElement);
-  setTimeout(() => hideAlert(alertElement), 2000);
-}
+/**--------------------------------------------
+ *               Helper Functions
+ *---------------------------------------------**/
 
-function alertGameEnd() {
-  const message = answer === CORRECT_WORD ? "You Win!" : "You Lose!";
-  const alertElement = createAlert(message);
-  const button = createButton("Play Again", startGame);
-  alertElement.append(button);
-
-  showAlert(alertElement);
-}
-
-function showAlert(alertElement) {
-  alertContainer.prepend(alertElement);
-}
-
-function hideAlert(alertElement) {
-  alertElement.classList.add("hide-alert");
-  alertElement.addEventListener("animationend", () => {
-    alertElement.remove();
-  });
-}
-
-function startGame() {
-  location.reload();
+function getRandomElement(array) {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
 }
