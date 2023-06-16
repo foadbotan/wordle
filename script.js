@@ -177,8 +177,7 @@ function alertError(message) {
   setTimeout(() => hideAlert(alertElement), 2000);
 }
 
-function alertGameEnd() {
-  const message = answer === CORRECT_WORD ? "You Win!" : "You Lose!";
+function alertGameEnd(message) {
   const alertElement = createAlert(message);
   const button = createButton("Play Again", startGame);
   alertElement.append(button);
@@ -237,7 +236,7 @@ function logHints() {
   };
 
   window.showHint = () => {
-    const similarWords = getSimilarWords(validWords, CORRECT_WORD);
+    const similarWords = getSimilarWords();
     console.log("HINT: This is a list of similar words - ", similarWords);
   };
 }

@@ -223,7 +223,6 @@ h1 {
 
 .keyboard-button {
   flex: 1;
-  background-color: var(--gray-100);
   display: flex;
   justify-content: center;
   align-items: center;
